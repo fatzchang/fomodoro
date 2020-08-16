@@ -1,65 +1,107 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Vibration } from 'react-native';
+import { StyleSheet, Text, View, Vibration, TouchableOpacity } from 'react-native';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import { AppLoading } from 'expo';
 import { useFonts } from 'expo-font';
-import { RootStackParamList } from '../App';
+import { useKeepAwake } from 'expo-keep-awake';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../App';
 
 export interface ClockScreenProps {
   navigation: StackNavigationProp<RootStackParamList, 'Clock'>
 }
 
-const ClockScreen: React.SFC<ClockScreenProps> = () => {
+const ClockScreen: React.SFC<ClockScreenProps> = ({ navigation }) => {
+  useKeepAwake();
+
   const [time, setTime] = useState(25 * 60);
   const [fontsLoaded] = useFonts({
     'digitalFont': require('../assets/fonts/CursedTimerUlil-Aznm.ttf')
   });
 
-  // const ONE_SECOND_IN_MS = 1000;
+  const timesUp = time <= 0;
 
-  // const vibrationPattern = [
-  //   1 * ONE_SECOND_IN_MS,
-  //   2 * ONE_SECOND_IN_MS,
-  //   3 * ONE_SECOND_IN_MS
-  // ];
+  // vibration
+  if (timesUp) {
+    Vibration.vibrate([
+      1 * 1000,
+      1 * 1000,
+      1 * 2000,
+      1 * 1000,
+    ]);
+  }
 
+  // orientation
   useEffect(() => {
     ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
-    // Vibration.vibrate(vibrationPattern);
 
     return () => {
       console.log('returned')
-      // await ScreenOrientation.unlockAsync();
       ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
     }
+  }, []);
+
+  // countdown
+  useEffect(() => {
+    if (time > 0) {
+      const timer = setInterval(() => {
+        setTime(time - 1)
+      }, 1000);
+
+      return () => { clearInterval(timer) }
+    }
   })
+
+  function navigateBack() {
+    navigation.goBack();
+  }
 
   if (!fontsLoaded) {
     return <AppLoading />;
   } else {
+    const min = Math.floor(time / 60);
+    const sec = time % 60;
 
     return (
       <View style={styles.container}>
-        <Text style={styles.clockText}>{time / 60}:{time % 60}</Text>
+        <Text style={styles.clockText}>
+          {min}:{sec < 10 ? '0' + sec : sec}
+        </Text>
+        {timesUp && (
+          <TouchableOpacity onPress={navigateBack} style={styles.returnButton}>
+            <Text style={styles.buttonText}>back</Text>
+          </TouchableOpacity>
+        )}
       </View>
     );
   }
-
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
-
+    alignItems: 'center',
+    backgroundColor: 'black'
   },
   clockText: {
-    color: '#444',
-    fontSize: 80,
+    color: 'rgb(255, 50, 100)',
+    fontSize: 150,
     fontWeight: '600',
     fontFamily: 'digitalFont'
+  },
+  returnButton: {
+    position: 'absolute',
+    bottom: 70,
+  },
+  buttonText: {
+    backgroundColor: 'white',
+    color: 'black',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 50,
+    fontSize: 25
+
   }
 });
 

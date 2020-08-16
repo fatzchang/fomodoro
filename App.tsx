@@ -23,7 +23,13 @@ export default function App() {
             headerShown: false
           }}
         />
-        <Stack.Screen name="Clock" component={ClockScreen} />
+        <Stack.Screen
+          name="Clock"
+          component={ClockScreen}
+          options={{
+            headerShown: false
+          }}
+        />
       </Stack.Navigator>
 
     </NavigationContainer>
