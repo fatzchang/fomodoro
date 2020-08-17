@@ -6,6 +6,8 @@ import HomeScreen from './src/screens/HomeScreen';
 import ClockScreen from './src/screens/ClockScreen';
 import ModalScreen from './src/screens/ModalScreen';
 
+import { initializeDate } from './src/db/date';
+
 export interface ModalParams {
 
 }
@@ -72,7 +74,7 @@ const RootStackScreen = () => {
   );
 }
 
-
 export default function App() {
+  initializeDate();
   return <RootStackScreen />;
 }
