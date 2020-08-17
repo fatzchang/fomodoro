@@ -15,7 +15,7 @@ const HomeScreen: React.SFC<HomeScreenProps> = function HomeScreen({ navigation 
       <TouchableOpacity onPress={() => {
         navigation.push('Clock', {});
       }}>
-        <Text style={styles.buttonText}>start</Text>
+        <Text style={styles.buttonText}>開始計時</Text>
       </TouchableOpacity>
     </View>
   );
@@ -29,7 +29,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   buttonText: {
-    fontSize: 30
+    fontSize: 30,
+    fontWeight: '900',
+    color: 'rgb(255, 50, 100)'
   }
 });
 

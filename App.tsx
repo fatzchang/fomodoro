@@ -27,7 +27,8 @@ export default function App() {
           name="Clock"
           component={ClockScreen}
           options={{
-            headerShown: false
+            headerShown: false,
+            gestureEnabled: false
           }}
         />
       </Stack.Navigator>

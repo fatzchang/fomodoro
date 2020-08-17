@@ -5,6 +5,7 @@ import { AppLoading } from 'expo';
 import { useFonts } from 'expo-font';
 import { useKeepAwake } from 'expo-keep-awake';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { Entypo } from '@expo/vector-icons';
 import { RootStackParamList } from '../App';
 
 export interface ClockScreenProps {
@@ -64,14 +65,18 @@ const ClockScreen: React.SFC<ClockScreenProps> = ({ navigation }) => {
 
     return (
       <View style={styles.container}>
+        <TouchableOpacity onPress={navigateBack} style={styles.returnButton}>
+          <Text style={styles.buttonText}>
+            <Entypo name="chevron-left" size={18} color="rgb(200, 200, 200)" />
+            返回
+            </Text>
+        </TouchableOpacity>
+
         <Text style={styles.clockText}>
-          {min}:{sec < 10 ? '0' + sec : sec}
+          {min < 10 ? '0' + min : min}:{sec < 10 ? '0' + sec : sec}
         </Text>
-        {timesUp && (
-          <TouchableOpacity onPress={navigateBack} style={styles.returnButton}>
-            <Text style={styles.buttonText}>back</Text>
-          </TouchableOpacity>
-        )}
+
+
       </View>
     );
   }
@@ -92,16 +97,12 @@ const styles = StyleSheet.create({
   },
   returnButton: {
     position: 'absolute',
-    bottom: 70,
+    top: 40,
+    left: 40
   },
   buttonText: {
-    backgroundColor: 'white',
-    color: 'black',
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 50,
-    fontSize: 25
-
+    color: 'rgb(200, 200, 200)',
+    fontSize: 18
   }
 });
 
