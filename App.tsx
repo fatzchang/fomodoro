@@ -2,37 +2,77 @@ import 'react-native-gesture-handler';
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import HomeScreen from './screens/HomeScreen';
-import ClockScreen from './screens/ClockScreen';
+import HomeScreen from './src/screens/HomeScreen';
+import ClockScreen from './src/screens/ClockScreen';
+import ModalScreen from './src/screens/ModalScreen';
+
+export interface ModalParams {
+
+}
 
 export type RootStackParamList = {
-  Home: {};
-  Clock: {};
+  Main: {},
+  Modal: ModalParams
 };
 
-const Stack = createStackNavigator<RootStackParamList>();
+export type MainStackParamList = {
+  Home: {};
+  Clock: {};
+  Modal: ModalParams;
+}
 
-export default function App() {
+const RootStack = createStackNavigator<RootStackParamList>();
+const MainStack = createStackNavigator<MainStackParamList>();
+
+
+const MainStackScreen = () => {
+  return (
+    <MainStack.Navigator initialRouteName='Home'>
+      <MainStack.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          headerShown: false
+        }}
+      />
+      <MainStack.Screen
+        name="Clock"
+        component={ClockScreen}
+        options={{
+          headerShown: false,
+          gestureEnabled: false
+        }}
+      />
+
+    </MainStack.Navigator>
+  )
+}
+
+const RootStackScreen = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='Home'>
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
+      <RootStack.Navigator initialRouteName='Main' mode='modal'>
+        <RootStack.Screen
+          name='Main'
+          component={MainStackScreen}
           options={{
             headerShown: false
           }}
         />
-        <Stack.Screen
-          name="Clock"
-          component={ClockScreen}
+        <RootStack.Screen
+          name='Modal'
+          component={ModalScreen}
           options={{
-            headerShown: false,
-            gestureEnabled: false
+            headerShown: false
           }}
         />
-      </Stack.Navigator>
+      </RootStack.Navigator>
 
     </NavigationContainer>
   );
+}
+
+
+export default function App() {
+  return <RootStackScreen />;
 }

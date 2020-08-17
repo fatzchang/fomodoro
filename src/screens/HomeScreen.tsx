@@ -1,12 +1,11 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import * as ScreenOrientation from 'expo-screen-orientation';
-import { RootStackParamList } from '../App';
+import { MainStackParamList } from '../../App';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 
 export interface HomeScreenProps {
-  navigation: StackNavigationProp<RootStackParamList, 'Home'>
+  navigation: StackNavigationProp<MainStackParamList, 'Home'>
 }
 
 const HomeScreen: React.SFC<HomeScreenProps> = function HomeScreen({ navigation }) {
