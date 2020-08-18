@@ -2,6 +2,11 @@ import 'react-native-gesture-handler';
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+
+// ui kitten
+import * as eva from '@eva-design/eva';
+import { ApplicationProvider } from '@ui-kitten/components';
+
 import HomeScreen from './src/screens/HomeScreen';
 import ClockScreen from './src/screens/ClockScreen';
 import ModalScreen from './src/screens/ModalScreen';
@@ -93,5 +98,10 @@ export default function App() {
   initializeCategories();
 
   // console.log(documentDirectory);
-  return <RootStackScreen />;
+
+  return (
+    <ApplicationProvider {...eva} theme={eva.light}>
+      <RootStackScreen />
+    </ApplicationProvider>
+  );
 }
