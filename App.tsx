@@ -5,6 +5,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './src/screens/HomeScreen';
 import ClockScreen from './src/screens/ClockScreen';
 import ModalScreen from './src/screens/ModalScreen';
+import CategoryScreen from './src/screens/CategoryScreen';
+import HeaderButton from './src/components/HeaderButton';
 
 // import { documentDirectory } from 'expo-file-system';
 import { initializeDate } from './src/db/date';
@@ -22,7 +24,7 @@ export type RootStackParamList = {
 export type MainStackParamList = {
   Home: {};
   Clock: {};
-  CateGory: {};
+  Category: {};
   Modal: ModalParams;
 }
 
@@ -36,8 +38,13 @@ const MainStackScreen = () => {
       <MainStack.Screen
         name="Home"
         component={HomeScreen}
-        options={{
-          // headerShown: false
+        options={({ navigation }) => {
+          return {
+            title: 'Home',
+            headerRight: () => (
+              <HeaderButton pressHandler={() => { navigation.push('Category', {}) }} />
+            )
+          }
         }}
       />
       <MainStack.Screen
@@ -47,6 +54,10 @@ const MainStackScreen = () => {
           headerShown: false,
           gestureEnabled: false
         }}
+      />
+      <MainStack.Screen
+        name='Category'
+        component={CategoryScreen}
       />
 
     </MainStack.Navigator>
