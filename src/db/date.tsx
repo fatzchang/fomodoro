@@ -1,17 +1,17 @@
 import { SQLResultSet } from 'expo-sqlite';
-import { db, createIfExist } from './core';
+import { db, createIfNotExist } from './core';
 
 const tableName = 'date';
 
 export const initializeDate = async () => {
-  createIfExist(tableName);
+  createIfNotExist(tableName);
   const todayObject = new Date();
   const todayString = `${todayObject.getFullYear()}-${todayObject.getMonth() + 1}-${todayObject.getDate()}`;
 
   try {
     const result = await oneByDate(todayString);
     if (!result.rows.item(0)) {
-      await insertDate(todayString);
+      await insert(todayString);
     }
   } catch (e) {
     console.log(e);
@@ -34,7 +34,7 @@ const oneByDate = (date: string): Promise<SQLResultSet> => {
   })
 }
 
-const insertDate = (date: string): Promise<SQLResultSet> => {
+const insert = (date: string): Promise<SQLResultSet> => {
   return new Promise((resolve, reject) => {
     db.transaction(tx => {
       tx.executeSql(`
