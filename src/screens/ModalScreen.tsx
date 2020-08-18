@@ -26,7 +26,7 @@ const ModalScreen: React.SFC<ModalScreenProps> = ({ navigation }) => {
     <View style={styles.container}>
       <Text style={styles.text}>休息一下吧！</Text>
       <TouchableOpacity style={styles.dismissButton} onPress={dismissHandler}>
-        <Text style={styles.dismissText}>好！</Text>
+        <Text style={styles.dismissText}>好</Text>
       </TouchableOpacity>
     </View>
   );
@@ -39,21 +39,23 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   text: {
-    fontSize: 20,
+    fontSize: 30,
     fontWeight: 'bold',
     color: '#777'
   },
   dismissButton: {
     position: "absolute",
-    bottom: 100,
+    bottom: 120,
     borderWidth: 1.5,
     borderRadius: 10,
-    paddingHorizontal: 20,
-    paddingVertical: 7,
+    paddingHorizontal: 25,
+    paddingVertical: 10,
     borderColor: '#999',
   },
   dismissText: {
-    color: '#777'
+    color: '#777',
+    fontSize: 20,
+    fontWeight: '600'
   }
 })
 
