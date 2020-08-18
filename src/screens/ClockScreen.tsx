@@ -75,8 +75,9 @@ const styles = StyleSheet.create({
   },
   returnButton: {
     position: 'absolute',
-    top: 40,
-    left: 40
+    padding: 30,
+    top: 0,
+    left: 0
   },
   buttonText: {
     color: 'rgba(255, 255, 255, .7)',
@@ -84,8 +85,9 @@ const styles = StyleSheet.create({
   },
   redo: {
     position: 'absolute',
-    top: 40,
-    right: 40
+    padding: 30,
+    top: 0,
+    right: 0
   },
   redoIcon: {
     color: 'rgba(255, 255, 255, .7)',

@@ -6,7 +6,9 @@ import HomeScreen from './src/screens/HomeScreen';
 import ClockScreen from './src/screens/ClockScreen';
 import ModalScreen from './src/screens/ModalScreen';
 
+// import { documentDirectory } from 'expo-file-system';
 import { initializeDate } from './src/db/date';
+import { initializeCategories } from './src/db/categories';
 
 export interface ModalParams {
 
@@ -20,6 +22,7 @@ export type RootStackParamList = {
 export type MainStackParamList = {
   Home: {};
   Clock: {};
+  CateGory: {};
   Modal: ModalParams;
 }
 
@@ -34,7 +37,7 @@ const MainStackScreen = () => {
         name="Home"
         component={HomeScreen}
         options={{
-          headerShown: false
+          // headerShown: false
         }}
       />
       <MainStack.Screen
@@ -76,5 +79,8 @@ const RootStackScreen = () => {
 
 export default function App() {
   initializeDate();
+  initializeCategories();
+
+  // console.log(documentDirectory);
   return <RootStackScreen />;
 }
