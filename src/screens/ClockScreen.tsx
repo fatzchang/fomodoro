@@ -17,9 +17,9 @@ const ClockScreen: React.SFC<ClockScreenProps> = ({ navigation }) => {
   const [time, setTime] = useState(defaultCountSecond);
   const timesUp = time <= 0;
 
-  // navigate to modal
+  // navigate to counted screen
   if (timesUp) {
-    navigation.push('Modal', {})
+    navigation.push('Counted', {})
   }
 
   // orientation

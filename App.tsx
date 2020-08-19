@@ -9,7 +9,7 @@ import { ApplicationProvider } from '@ui-kitten/components';
 
 import HomeScreen from './src/screens/HomeScreen';
 import ClockScreen from './src/screens/ClockScreen';
-import ModalScreen from './src/screens/ModalScreen';
+import CountedScreen from './src/screens/CountedScreen';
 import CategoryScreen from './src/screens/CategoryScreen';
 import HeaderButton from './src/components/HeaderButton';
 
@@ -17,20 +17,20 @@ import HeaderButton from './src/components/HeaderButton';
 import { initializeDate } from './src/db/date';
 import { initializeCategories } from './src/db/categories';
 
-export interface ModalParams {
+export interface CountedParams {
 
 }
 
 export type RootStackParamList = {
   Main: {},
-  Modal: ModalParams
+  Counted: CountedParams
 };
 
 export type MainStackParamList = {
   Home: {};
   Clock: {};
   Category: {};
-  Modal: ModalParams;
+  Counted: CountedParams;
 }
 
 const RootStack = createStackNavigator<RootStackParamList>();
@@ -45,9 +45,8 @@ const MainStackScreen = () => {
         component={HomeScreen}
         options={({ navigation }) => {
           return {
-            title: 'Home',
             headerRight: () => (
-              <HeaderButton pressHandler={() => { navigation.push('Category', {}) }} />
+              <HeaderButton icon='tag' pressHandler={() => { navigation.push('Category', {}) }} />
             )
           }
         }}
@@ -63,6 +62,11 @@ const MainStackScreen = () => {
       <MainStack.Screen
         name='Category'
         component={CategoryScreen}
+        options={{
+          headerRight: () => (
+            <HeaderButton icon='plus' pressHandler={() => { }} />
+          )
+        }}
       />
 
     </MainStack.Navigator>
@@ -81,8 +85,8 @@ const RootStackScreen = () => {
           }}
         />
         <RootStack.Screen
-          name='Modal'
-          component={ModalScreen}
+          name='Counted'
+          component={CountedScreen}
           options={{
             headerShown: false
           }}

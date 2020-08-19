@@ -4,11 +4,11 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../App';
 
 
-export interface ModalScreenProps {
-  navigation: StackNavigationProp<RootStackParamList, 'Modal'>
+export interface CountedScreenProps {
+  navigation: StackNavigationProp<RootStackParamList, 'Counted'>
 }
 
-const ModalScreen: React.SFC<ModalScreenProps> = ({ navigation }) => {
+const CountedScreen: React.SFC<CountedScreenProps> = ({ navigation }) => {
   useEffect(() => {
     Vibration.vibrate([
       1 * 1000,
@@ -59,4 +59,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default ModalScreen;
+export default CountedScreen;
