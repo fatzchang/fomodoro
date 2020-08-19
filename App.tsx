@@ -11,26 +11,35 @@ import HomeScreen from './src/screens/HomeScreen';
 import ClockScreen from './src/screens/ClockScreen';
 import CountedScreen from './src/screens/CountedScreen';
 import CategoryScreen from './src/screens/CategoryScreen';
+import EditCategoryScreen from './src/screens/EditCategoryScreen';
 import HeaderButton from './src/components/HeaderButton';
 
 // import { documentDirectory } from 'expo-file-system';
-import { initializeDate } from './src/db/date';
-import { initializeCategories } from './src/db/categories';
+import * as mDate from './src/db/date';
+import * as mCategory from './src/db/category';
+import * as mSegment from './src/db/segment';
 
 export interface CountedParams {
 
 }
 
-export type RootStackParamList = {
-  Main: {},
-  Counted: CountedParams
+export interface BaseParamList {
+  [k: string]: object;
+  Counted: CountedParams;
+  EditCategory: {
+    id: number
+  }
+}
+
+export interface RootStackParamList extends BaseParamList {
+  Main: {};
 };
 
-export type MainStackParamList = {
+export interface MainStackParamList extends BaseParamList {
   Home: {};
   Clock: {};
   Category: {};
-  Counted: CountedParams;
+
 }
 
 const RootStack = createStackNavigator<RootStackParamList>();
@@ -62,10 +71,12 @@ const MainStackScreen = () => {
       <MainStack.Screen
         name='Category'
         component={CategoryScreen}
-        options={{
-          headerRight: () => (
-            <HeaderButton icon='plus' pressHandler={() => { }} />
-          )
+        options={({ navigation }) => {
+          return {
+            headerRight: () => (
+              <HeaderButton icon='plus' pressHandler={() => { navigation.push('EditCategory') }} />
+            )
+          }
         }}
       />
 
@@ -73,6 +84,7 @@ const MainStackScreen = () => {
   )
 }
 
+// modal screens write in here
 const RootStackScreen = () => {
   return (
     <NavigationContainer>
@@ -91,6 +103,13 @@ const RootStackScreen = () => {
             headerShown: false
           }}
         />
+        <RootStack.Screen
+          name='EditCategory'
+          component={EditCategoryScreen}
+        // options={{
+        //   headerShown: false
+        // }}
+        />
       </RootStack.Navigator>
 
     </NavigationContainer>
@@ -98,8 +117,9 @@ const RootStackScreen = () => {
 }
 
 export default function App() {
-  initializeDate();
-  initializeCategories();
+  mDate.initialize();
+  mCategory.initialize();
+  mSegment.initialize();
 
   // console.log(documentDirectory);
 

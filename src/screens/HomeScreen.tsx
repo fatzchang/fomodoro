@@ -3,14 +3,15 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Picker } from '@react-native-community/picker';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { MainStackParamList } from '../../App';
-import { all, CategoriesScheme } from '../db/categories';
+import { all, CategoryScheme } from '../db/category';
 
 export interface HomeScreenProps {
   navigation: StackNavigationProp<MainStackParamList, 'Home'>
 }
 
 const HomeScreen: React.SFC<HomeScreenProps> = function HomeScreen({ navigation }) {
-  const [categories, setCategories] = useState<CategoriesScheme[]>([]);
+  const [categories, setCategories] = useState<CategoryScheme[]>([]);
+  const [selectedId, setSelectedId] = useState<number>(0)
 
   // get categories and display the picker
   useEffect(() => {
@@ -23,7 +24,7 @@ const HomeScreen: React.SFC<HomeScreenProps> = function HomeScreen({ navigation 
   }, [])
 
   const cateSelectHandler = (value: React.ReactText, index: number) => {
-    console.log(value, index)
+    setSelectedId(value as CategoryScheme['id']);
   }
 
   return (
@@ -34,7 +35,7 @@ const HomeScreen: React.SFC<HomeScreenProps> = function HomeScreen({ navigation 
         <Text style={styles.buttonText}>開始計時</Text>
       </TouchableOpacity>
       {categories.length > 0 && (
-        <Picker style={styles.picker} onValueChange={cateSelectHandler}>
+        <Picker style={styles.picker} onValueChange={cateSelectHandler} selectedValue={selectedId}>
           {categories.map(category =>
             <Picker.Item key={category.id} label={category.name} value={category.id} />
           )}

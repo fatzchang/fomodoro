@@ -1,14 +1,14 @@
 import { SQLResultSet } from 'expo-sqlite';
 import { db, createIfNotExist } from './core';
 
-export interface CategoriesScheme {
+export interface CategoryScheme {
   id: number;
   name: string;
 }
 
-const tableName = 'categories';
+const tableName = 'category';
 
-export const initializeCategories = () => {
+export const initialize = () => {
   createIfNotExist(tableName);
 }
 

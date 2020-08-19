@@ -3,7 +3,12 @@ import { db, createIfNotExist } from './core';
 
 const tableName = 'date';
 
-export const initializeDate = async () => {
+export interface DateScheme {
+  id: number;
+  date: string;
+}
+
+export const initialize = async () => {
   createIfNotExist(tableName);
   const todayObject = new Date();
   const todayString = `${todayObject.getFullYear()}-${todayObject.getMonth() + 1}-${todayObject.getDate()}`;

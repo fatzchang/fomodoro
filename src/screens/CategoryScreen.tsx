@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import { Divider, List, ListItem, Button } from '@ui-kitten/components';
-import { CategoriesScheme } from '../db/categories';
+import { CategoryScheme, all } from '../db/category';
 
 export interface CategoryScreenProps {
 
 }
 
-const data: CategoriesScheme[] = [
+const data: CategoryScheme[] = [
   {
     id: 1,
     name: 'algorithm'
@@ -25,19 +25,29 @@ const data: CategoriesScheme[] = [
 
 
 const CategoryScreen: React.SFC<CategoryScreenProps> = () => {
+  const [categories, setCategories] = useState<CategoryScheme[]>([])
+
   const renderItemAccessory = (props: any) => (
     <Button status='danger' size='small'>delete</Button>
   );
 
+  useEffect(() => {
+    const getDataAndDisplay = async () => {
+      const result = await all();
+      setCategories(result.rows._array);
+    }
+    getDataAndDisplay()
+  }, []);
+
   return (
     <List
       style={styles.container}
-      data={data}
+      data={categories}
       ItemSeparatorComponent={Divider}
       renderItem={({ item, index }) => (
         <ListItem
           title={item.name}
-          description={'this is description'}
+          // description={'this is description'}
           // accessoryLeft={renderItemIcon}
           accessoryRight={renderItemAccessory}
         />
