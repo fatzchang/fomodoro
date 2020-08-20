@@ -1,7 +1,8 @@
 import 'react-native-gesture-handler';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { AppLoading } from 'expo';
 
 // ui kitten
 import * as eva from '@eva-design/eva';
@@ -18,6 +19,12 @@ import HeaderButton from './src/components/HeaderButton';
 import * as mDate from './src/db/date';
 import * as mCategory from './src/db/category';
 import * as mSegment from './src/db/segment';
+
+// redux
+import { Provider, useDispatch } from 'react-redux';
+import store from './src/store/store';
+import { addCategory } from './src/store/category/actions';
+
 
 export interface CountedParams {
 
@@ -39,7 +46,6 @@ export interface MainStackParamList extends BaseParamList {
   Home: {};
   Clock: {};
   Category: {};
-
 }
 
 const RootStack = createStackNavigator<RootStackParamList>();
@@ -106,26 +112,43 @@ const RootStackScreen = () => {
         <RootStack.Screen
           name='EditCategory'
           component={EditCategoryScreen}
-        // options={{
-        //   headerShown: false
-        // }}
         />
       </RootStack.Navigator>
-
     </NavigationContainer>
   );
 }
 
-export default function App() {
+function App() {
+  const [inited, setInited] = useState(false);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    // fetch db data and save into redux
+    const syncState = async () => {
+      await mDate.createToday();
+      const cates = await mCategory.all();
+      cates.rows._array.forEach((el: any) => {
+        dispatch(addCategory(el.id, el.name))
+      });
+
+      setInited(true);
+    }
+    syncState();
+  }, [])
+
+  return inited ? <RootStackScreen /> : <AppLoading />
+}
+
+export default function () {
   mDate.initialize();
   mCategory.initialize();
   mSegment.initialize();
 
-  // console.log(documentDirectory);
-
   return (
     <ApplicationProvider {...eva} theme={eva.light}>
-      <RootStackScreen />
+      <Provider store={store}>
+        <App />
+      </Provider>
     </ApplicationProvider>
-  );
+  )
 }

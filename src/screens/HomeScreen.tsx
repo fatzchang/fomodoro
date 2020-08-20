@@ -4,24 +4,16 @@ import { Picker } from '@react-native-community/picker';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { MainStackParamList } from '../../App';
 import { all, CategoryScheme } from '../db/category';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/types';
 
 export interface HomeScreenProps {
   navigation: StackNavigationProp<MainStackParamList, 'Home'>
 }
 
 const HomeScreen: React.SFC<HomeScreenProps> = function HomeScreen({ navigation }) {
-  const [categories, setCategories] = useState<CategoryScheme[]>([]);
   const [selectedId, setSelectedId] = useState<number>(0)
-
-  // get categories and display the picker
-  useEffect(() => {
-    const getCategories = async () => {
-      const result = await all();
-      setCategories(result.rows._array); // todo: extend rows type
-    }
-
-    getCategories()
-  }, [])
+  const categories = useSelector((state: RootState) => state.category.data);
 
   const cateSelectHandler = (value: React.ReactText, index: number) => {
     setSelectedId(value as CategoryScheme['id']);

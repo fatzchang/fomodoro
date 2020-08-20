@@ -8,8 +8,11 @@ export interface DateScheme {
   date: string;
 }
 
-export const initialize = async () => {
+export const initialize = () => {
   createIfNotExist(tableName);
+}
+
+export const createToday = async () => {
   const todayObject = new Date();
   const todayString = `${todayObject.getFullYear()}-${todayObject.getMonth() + 1}-${todayObject.getDate()}`;
 
@@ -17,11 +20,13 @@ export const initialize = async () => {
     const result = await oneByDate(todayString);
     if (!result.rows.item(0)) {
       await insert(todayString);
+      return true;
     }
   } catch (e) {
     console.log(e);
   }
 }
+
 
 // select one record by date
 const oneByDate = (date: string): Promise<SQLResultSet> => {

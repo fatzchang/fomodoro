@@ -1,21 +1,24 @@
 import { SQLResultSet } from 'expo-sqlite';
 import { db, createIfNotExist } from './core';
 
+const tableName = 'category';
+
 export interface CategoryScheme {
   id: number;
   name: string;
 }
-
-const tableName = 'category';
 
 export const initialize = () => {
   createIfNotExist(tableName);
 }
 
 export const insertIfNotExist = async (name: string) => {
-  const result = await oneByName(name);
-  if (!result.rows.item(0)) {
-    await insert(name);
+  let record = await oneByName(name);
+  if (!record.rows.item(0)) {
+    const result = await insert(name) as SQLResultSet;
+    return result.insertId;
+  } else {
+    return record.rows.item(0).id as number;
   }
 }
 

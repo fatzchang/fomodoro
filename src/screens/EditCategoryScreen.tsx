@@ -4,6 +4,8 @@ import { RootStackParamList } from '../../App';
 import { View, StyleSheet } from 'react-native';
 import { Input, Button } from '@ui-kitten/components';
 import { insertIfNotExist } from '../db/category';
+import { addCategory } from '../store/category/actions';
+import { useDispatch } from 'react-redux';
 
 
 export interface EditCategoryScreenProps {
@@ -12,9 +14,11 @@ export interface EditCategoryScreenProps {
 
 const EditCategoryScreen: React.SFC<EditCategoryScreenProps> = ({ navigation }) => {
   const [value, setValue] = React.useState('');
+  const dispatch = useDispatch();
 
   const submitHandler = async () => {
-    await insertIfNotExist(value);
+    const cateId = await insertIfNotExist(value);
+    dispatch(addCategory(cateId, value));
     navigation.goBack()
   }
 
