@@ -28,9 +28,9 @@ const Clock: React.SFC<ClockProps> = ({ timeInSecond }) => {
 }
 const styles = StyleSheet.create({
   clockText: {
-    color: 'rgb(255, 50, 100)',
-    fontSize: 150,
-    fontWeight: '600',
+    color: 'rgb(255, 80, 100)',
+    fontSize: 80,
+    letterSpacing: 5,
     fontFamily: 'digitalFont'
   },
 });
