@@ -1,29 +1,38 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Picker } from '@react-native-community/picker';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { MainStackParamList } from '../../App';
-import { all, CategoryScheme } from '../db/category';
-import { useSelector } from 'react-redux';
+import { CategoryScheme } from '../db/category';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../store/types';
+import { startSegment } from '../store/segment/actions';
+import { todayString, oneByDate } from '../db/date';
 
 export interface HomeScreenProps {
   navigation: StackNavigationProp<MainStackParamList, 'Home'>
 }
 
 const HomeScreen: React.SFC<HomeScreenProps> = function HomeScreen({ navigation }) {
-  const [selectedId, setSelectedId] = useState<number>(0)
   const categories = useSelector((state: RootState) => state.category.data);
+  const [selectedId, setSelectedId] = useState<number>(categories[0].id);
+  const dispatch = useDispatch();
 
   const cateSelectHandler = (value: React.ReactText, index: number) => {
     setSelectedId(value as CategoryScheme['id']);
   }
 
+  const starthandler = async () => {
+    const today = await oneByDate(todayString());
+    const targetCate = categories.find(cate => cate.id === selectedId)!;
+
+    dispatch(startSegment(today.rows.item(0).id, selectedId, targetCate.name, Date.now()));
+    navigation.navigate('Clock', {});
+  }
+
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.startButton} onPress={() => {
-        navigation.push('Clock', {});
-      }}>
+      <TouchableOpacity style={styles.startButton} onPress={starthandler}>
         <Text style={styles.buttonText}>開始計時</Text>
       </TouchableOpacity>
       {categories.length > 0 && (

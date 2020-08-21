@@ -1,4 +1,3 @@
-import { SQLResultSet } from 'expo-sqlite';
 import { db, createIfNotExist } from './core';
 import { DateScheme } from './date';
 import { CategoryScheme } from './category';
@@ -16,7 +15,7 @@ export const initialize = () => {
   createIfNotExist(tableName);
 }
 
-const insert = (date_id: DateScheme['id'], category_id: CategoryScheme['id'], start: string) => {
+export const insert = (date_id: DateScheme['id'], category_id: CategoryScheme['id'], start: number) => {
   return new Promise((resolve, reject) => {
     db.transaction(tx => {
       tx.executeSql(`
@@ -32,16 +31,16 @@ const insert = (date_id: DateScheme['id'], category_id: CategoryScheme['id'], st
 }
 
 
-// export const someByDate = (): Promise<SQLResultSet> => {
-//   return new Promise((resolve, reject) => {
-//     db.transaction(tx => {
-//       tx.executeSql(`
-//         SELECT * FROM ${tableName}`, [], (tx, result) => {
-//         resolve(result)
-//       }, (tx, e) => {
-//         reject(e);
-//         return false;
-//       })
-//     })
-//   })
-// }
+export const all = () => {
+  return new Promise((resolve, reject) => {
+    db.transaction(tx => {
+      tx.executeSql(`
+        SELECT * FROM ${tableName}`, [], (tx, result) => {
+        resolve(result)
+      }, (tx, e) => {
+        reject(e);
+        return false;
+      })
+    })
+  })
+}

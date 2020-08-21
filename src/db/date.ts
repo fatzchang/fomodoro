@@ -12,24 +12,25 @@ export const initialize = () => {
   createIfNotExist(tableName);
 }
 
-export const createToday = async () => {
+export const todayString = () => {
   const todayObject = new Date();
   const todayString = `${todayObject.getFullYear()}-${todayObject.getMonth() + 1}-${todayObject.getDate()}`;
 
-  try {
-    const result = await oneByDate(todayString);
-    if (!result.rows.item(0)) {
-      await insert(todayString);
-      return true;
-    }
-  } catch (e) {
-    console.log(e);
+  return todayString;
+}
+
+export const createToday = async () => {
+  const record = await oneByDate(todayString());
+  if (!record.rows.item(0)) {
+    const result = await insert(todayString());
+    return result.insertId;
+  } else {
+    return record.rows.item(0).id as number;
   }
 }
 
-
 // select one record by date
-const oneByDate = (date: string): Promise<SQLResultSet> => {
+export const oneByDate = (date: string): Promise<SQLResultSet> => {
   return new Promise((resolve, reject) => {
     db.transaction(tx => {
       tx.executeSql(`

@@ -2,13 +2,17 @@ import React, { useEffect } from 'react';
 import { Text, View, TouchableOpacity, StyleSheet, Vibration, GestureResponderEvent } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../App';
-
+import { insert } from '../db/segment';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/types';
 
 export interface CountedScreenProps {
   navigation: StackNavigationProp<RootStackParamList, 'Counted'>
 }
 
 const CountedScreen: React.SFC<CountedScreenProps> = ({ navigation }) => {
+  const segmentIfo = useSelector((state: RootState) => state.segment.recent)!;
+
   useEffect(() => {
     Vibration.vibrate([
       1 * 1000,
@@ -18,7 +22,8 @@ const CountedScreen: React.SFC<CountedScreenProps> = ({ navigation }) => {
     ]);
   }, []);
 
-  const dismissHandler = (e: GestureResponderEvent) => {
+  const dismissHandler = async (e: GestureResponderEvent) => {
+    insert(segmentIfo.dateId, segmentIfo.categoryId, segmentIfo.start);
     navigation.goBack()
   }
 
