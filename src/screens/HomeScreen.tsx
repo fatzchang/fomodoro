@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../store/types';
 import { startSegment } from '../store/segment/actions';
 import { todayString, oneByDate } from '../db/date';
+import { Ionicons } from '@expo/vector-icons';
 
 export interface HomeScreenProps {
   navigation: StackNavigationProp<MainStackParamList, 'Home'>
@@ -30,6 +31,10 @@ const HomeScreen: React.SFC<HomeScreenProps> = function HomeScreen({ navigation 
     navigation.navigate('Clock', {});
   }
 
+  const toStatsHandler = () => {
+    navigation.navigate('Statistic', {});
+  }
+
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.startButton} onPress={starthandler}>
@@ -42,6 +47,9 @@ const HomeScreen: React.SFC<HomeScreenProps> = function HomeScreen({ navigation 
           )}
         </Picker>
       )}
+      <TouchableOpacity onPress={toStatsHandler} style={styles.stats}>
+        <Ionicons style={styles.statsIcon} name="ios-stats" />
+      </TouchableOpacity>
     </View>
   );
 }
@@ -62,8 +70,16 @@ const styles = StyleSheet.create({
     color: 'rgb(255, 50, 100)'
   },
   picker: {
-    color: 'black',
-    width: 200
+    width: 200,
+  },
+  stats: {
+    position: 'absolute',
+    padding: 30,
+    bottom: 150,
+  },
+  statsIcon: {
+    color: 'rgb(100, 100, 100)',
+    fontSize: 20
   }
 });
 

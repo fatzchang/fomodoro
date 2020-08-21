@@ -13,6 +13,7 @@ import ClockScreen from './src/screens/ClockScreen';
 import CountedScreen from './src/screens/CountedScreen';
 import CategoryScreen from './src/screens/CategoryScreen';
 import EditCategoryScreen from './src/screens/EditCategoryScreen';
+import StatisticScreen from './src/screens/StatisticScreen';
 import HeaderButton from './src/components/HeaderButton';
 
 // import { documentDirectory } from 'expo-file-system';
@@ -46,6 +47,7 @@ export interface MainStackParamList extends BaseParamList {
   Home: {};
   Clock: {};
   Category: {};
+  Statistic: {}
 }
 
 const RootStack = createStackNavigator<RootStackParamList>();
@@ -88,6 +90,11 @@ const MainStackScreen = () => {
             )
           }
         }}
+      />
+      <MainStack.Screen
+        name='Statistic'
+        component={StatisticScreen}
+        options={{}}
       />
 
     </MainStack.Navigator>
@@ -134,7 +141,6 @@ function App() {
       cates.rows._array.forEach((el: any) => {
         dispatch(addCategory(el.id, el.name))
       });
-
       setInited(true);
     }
     syncState();
