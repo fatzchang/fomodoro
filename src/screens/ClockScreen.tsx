@@ -17,7 +17,7 @@ const ClockScreen: React.SFC<ClockScreenProps> = ({ navigation }) => {
   useKeepAwake();
   const defaultCountSecond = 25 * 60;
   const [time, setTime] = useState(defaultCountSecond);
-  const segmentInfo = useSelector((state: RootState) => state.segment.recent)!;
+  const segmentInfo = useSelector((state: RootState) => state.segment.recent);
 
   const timesUp = time <= 0;
 
@@ -52,7 +52,7 @@ const ClockScreen: React.SFC<ClockScreenProps> = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.categoryName}>{segmentInfo.categoryName}</Text>
+      {segmentInfo && <Text style={styles.categoryName}>{segmentInfo.categoryName}</Text>}
       <TouchableOpacity onPress={redoHandler} style={styles.redo}>
         <FontAwesome5 style={styles.redoIcon} name="redo" />
       </TouchableOpacity>

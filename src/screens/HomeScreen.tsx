@@ -16,7 +16,7 @@ export interface HomeScreenProps {
 
 const HomeScreen: React.SFC<HomeScreenProps> = function HomeScreen({ navigation }) {
   const categories = useSelector((state: RootState) => state.category.data);
-  const [selectedId, setSelectedId] = useState<number>(categories[0].id);
+  const [selectedId, setSelectedId] = useState<number | null>(categories[0] ? categories[0].id : null);
   const dispatch = useDispatch();
 
   const cateSelectHandler = (value: React.ReactText, index: number) => {
@@ -26,8 +26,9 @@ const HomeScreen: React.SFC<HomeScreenProps> = function HomeScreen({ navigation 
   const starthandler = async () => {
     const today = await oneByDate(todayString());
     const targetCate = categories.find(cate => cate.id === selectedId)!;
-
-    dispatch(startSegment(today.rows.item(0).id, selectedId, targetCate.name, Date.now()));
+    if (selectedId) {
+      dispatch(startSegment(today.rows.item(0).id, selectedId, targetCate.name, Date.now()));
+    }
     navigation.navigate('Clock', {});
   }
 
