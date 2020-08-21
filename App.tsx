@@ -70,8 +70,12 @@ const MainStackScreen = () => {
         name="Clock"
         component={ClockScreen}
         options={{
-          headerShown: false,
-          gestureEnabled: false
+          headerStyle: {
+            backgroundColor: 'black',
+            borderBottomColor: 'black',
+            shadowColor: 'black'
+          },
+          headerTintColor: 'white',
         }}
       />
       <MainStack.Screen
@@ -125,7 +129,7 @@ function App() {
   useEffect(() => {
     // fetch db data and save into redux
     const syncState = async () => {
-      await mDate.createToday();
+      const dateId = await mDate.createToday();
       const cates = await mCategory.all();
       cates.rows._array.forEach((el: any) => {
         dispatch(addCategory(el.id, el.name))
