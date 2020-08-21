@@ -25,7 +25,7 @@ export const createIfNotExist = (tableName: Table) => {
         id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         date_id INTERGER NOT NULL,
         category_id INTERGER NOT NULL,
-        start DATETIME
+        start INTEGER
       )`;
     }
 
