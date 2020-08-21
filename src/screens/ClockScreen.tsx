@@ -46,9 +46,6 @@ const ClockScreen: React.SFC<ClockScreenProps> = ({ navigation }) => {
     }
   })
 
-  const navigateBack = () => {
-    navigation.goBack();
-  }
   const redoHandler = () => {
     setTime(defaultCountSecond);
   }
@@ -75,17 +72,17 @@ const styles = StyleSheet.create({
   redo: {
     position: 'absolute',
     padding: 30,
-    bottom: 200,
+    bottom: 150,
   },
   redoIcon: {
     color: 'rgba(255, 255, 255, .7)',
-    fontSize: 30
+    fontSize: 20
   },
   categoryName: {
     position: 'absolute',
-    top: 250,
+    top: 100,
     color: 'rgba(255, 255, 255, .9)',
-    fontSize: 15,
+    fontSize: 20,
     letterSpacing: 1
   }
 });

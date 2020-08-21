@@ -30,12 +30,25 @@ export const insert = (date_id: DateScheme['id'], category_id: CategoryScheme['i
   })
 }
 
-
 export const all = () => {
   return new Promise((resolve, reject) => {
     db.transaction(tx => {
       tx.executeSql(`
         SELECT * FROM ${tableName}`, [], (tx, result) => {
+        resolve(result)
+      }, (tx, e) => {
+        reject(e);
+        return false;
+      })
+    })
+  })
+}
+
+export const someByDateId = (dateId: number) => {
+  return new Promise((resolve, reject) => {
+    db.transaction(tx => {
+      tx.executeSql(`
+        SELECT * FROM ${tableName} WHERE date_id = ?`, [dateId], (tx, result) => {
         resolve(result)
       }, (tx, e) => {
         reject(e);
