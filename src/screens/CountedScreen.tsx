@@ -12,6 +12,7 @@ export interface CountedScreenProps {
 
 const CountedScreen: React.SFC<CountedScreenProps> = ({ navigation }) => {
   const segmentIfo = useSelector((state: RootState) => state.segment.recent);
+  const todayId = useSelector((state: RootState) => state.today.id);
 
   useEffect(() => {
     Vibration.vibrate([
@@ -24,7 +25,7 @@ const CountedScreen: React.SFC<CountedScreenProps> = ({ navigation }) => {
 
   const dismissHandler = async (e: GestureResponderEvent) => {
     if (segmentIfo) {
-      insert(segmentIfo.dateId, segmentIfo.categoryId, segmentIfo.start);
+      insert(todayId, segmentIfo.categoryId, segmentIfo.start);
     }
     navigation.goBack()
   }

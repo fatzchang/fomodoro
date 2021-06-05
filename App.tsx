@@ -25,6 +25,7 @@ import * as mSegment from './src/db/segment';
 import { Provider, useDispatch } from 'react-redux';
 import store from './src/store/store';
 import { addCategory } from './src/store/category/actions';
+import { setTodayId } from './src/store/today/actions';
 
 
 export interface CountedParams {
@@ -62,6 +63,7 @@ const MainStackScreen = () => {
         component={HomeScreen}
         options={({ navigation }) => {
           return {
+            headerTitle: '主畫面',
             headerRight: () => (
               <HeaderButton icon='tag' pressHandler={() => { navigation.push('Category', {}) }} />
             )
@@ -72,6 +74,7 @@ const MainStackScreen = () => {
         name="Clock"
         component={ClockScreen}
         options={{
+          headerTitle: '計時器',
           headerStyle: {
             backgroundColor: 'black',
             borderBottomColor: 'black',
@@ -85,6 +88,7 @@ const MainStackScreen = () => {
         component={CategoryScreen}
         options={({ navigation }) => {
           return {
+            headerTitle: '類別',
             headerRight: () => (
               <HeaderButton icon='plus' pressHandler={() => { navigation.push('EditCategory') }} />
             )
@@ -94,7 +98,9 @@ const MainStackScreen = () => {
       <MainStack.Screen
         name='Statistic'
         component={StatisticScreen}
-        options={{}}
+        options={{
+          headerTitle: '統計',
+        }}
       />
 
     </MainStack.Navigator>
@@ -137,10 +143,12 @@ function App() {
     // fetch db data and save into redux
     const syncState = async () => {
       const dateId = await mDate.createToday();
+      dispatch(setTodayId(dateId));
       const cates = await mCategory.all();
       cates.rows._array.forEach((el: any) => {
         dispatch(addCategory(el.id, el.name))
       });
+
       setInited(true);
     }
     syncState();

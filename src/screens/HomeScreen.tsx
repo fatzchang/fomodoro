@@ -24,10 +24,9 @@ const HomeScreen: React.SFC<HomeScreenProps> = function HomeScreen({ navigation 
   }
 
   const starthandler = async () => {
-    const today = await oneByDate(todayString());
     const targetCate = categories.find(cate => cate.id === selectedId)!;
     if (selectedId) {
-      dispatch(startSegment(today.rows.item(0).id, selectedId, targetCate.name, Date.now()));
+      dispatch(startSegment(selectedId, targetCate.name, Date.now()));
     }
     navigation.navigate('Clock', {});
   }

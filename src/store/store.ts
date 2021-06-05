@@ -1,10 +1,12 @@
 import { createStore, combineReducers } from 'redux';
 import { categoryReducer } from './category/reducer';
 import { segmentReducer } from './segment/reducer';
+import { todayReducer } from './today/reducer';
 
 const reducer = combineReducers({
   category: categoryReducer,
-  segment: segmentReducer
+  segment: segmentReducer,
+  today: todayReducer
 });
 
 

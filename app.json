@@ -22,6 +22,9 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "description": "tomato clock"
+    "description": "tomato clock",
+    "android": {
+      "package": "com.fatzchang.fomodoro"
+    }
   }
 }

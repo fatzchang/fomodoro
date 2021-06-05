@@ -1,7 +1,6 @@
 import { SegmentActionType, START_SEGMENT } from './types'
 
 export function startSegment(
-  dateId: number,
   categoryId: number,
   categoryName: string,
   start: number
@@ -9,7 +8,6 @@ export function startSegment(
   return {
     type: START_SEGMENT,
     payload: {
-      dateId,
       categoryId,
       start,
       categoryName

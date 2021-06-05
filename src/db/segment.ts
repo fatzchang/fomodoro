@@ -1,6 +1,7 @@
 import { db, createIfNotExist } from './core';
 import { DateScheme } from './date';
 import { CategoryScheme } from './category';
+import { SQLResultSet } from 'expo-sqlite';
 
 export interface SegmentScheme {
   id: number;
@@ -44,7 +45,7 @@ export const all = () => {
   })
 }
 
-export const someByDateId = (dateId: number) => {
+export const someByDateId = (dateId: number): Promise<SQLResultSet> => {
   return new Promise((resolve, reject) => {
     db.transaction(tx => {
       tx.executeSql(`

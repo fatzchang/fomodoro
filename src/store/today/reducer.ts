@@ -12,7 +12,7 @@ export const todayReducer = (
     case SET_TODAY_ID:
       return {
         ...state,
-
+        id: action.payload.id
       }
 
     default:
